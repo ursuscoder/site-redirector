@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Открываю ссылку 🔗</title>
+    <meta name="description" content="Сайт для редиректа на VK">
+    <meta name="keywords" content="redirect, VK, bibaboba.fun">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Comic Sans MS, sans-serif;
+            background-color: rgb(233, 255, 218);
+        }
+
+        .message {
+            font-size: 10vw;
+            font-weight: bold;
+            color: rgba(71, 122, 12, 0.681);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.192);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .message:hover {
+            transform: scale(1.05);
+        }
+
+        .countdown {
+            margin-top: 20px;
+            font-size: 4vw;
+            text-align: center;
+        }
+
+        .progress-bar {
+            margin-top: 20px;
+            width: 80%;
+            max-width: 300px;
+            height: 20px;
+            background-color: #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            width: 0;
+            background-color: rgba(71, 122, 12, 0.681);
+            transition: width 0.1s;
+        }
+
+        nav {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+        }
+
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: rgba(71, 122, 12, 0.681);
+            font-size: 4vw;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: rgba(71, 122, 12, 1);
+        }
+
+        @media (min-width: 768px) {
+            .message {
+                font-size: 60px;
+            }
+
+            .countdown {
+                font-size: 30px;
+            }
+
+            nav a {
+                font-size: 20px;
+            }
+        }
+    </style>
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function (m, e, t, r, i, k, a) {
+            m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments) };
+            m[i].l = 1 * new Date();
+            for (var j = 0; j < document.scripts.length; j++) { if (document.scripts[j].src === r) { return; } }
+            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+        })
+            (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(97415989, "init", {
+            clickmap: true,
+            trackLinks: true,
+            accurateTrackBounce: true,
+            webvisor: true
+        });
+    </script>
+    <noscript>
+        <div><img src="https://mc.yandex.ru/watch/97415989" style="position:absolute; left:-9999px;" alt="" /></div>
+    </noscript>
+    <!-- /Yandex.Metrika counter -->
+    <script>
+        async function redirect() {
+            try {
+                const response = await fetch('https://getpantry.cloud/apiv1/pantry/b688ccb2-f879-4062-880b-5bf90ca26340/basket/bibaboba');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                const data = await response.json();
+                const url = data.link;
+
+                let countdown = 5;
+                const countdownElement = document.getElementById('countdown');
+                const progressBar = document.getElementById('progress');
+
+                const interval = setInterval(() => {
+                    countdown--;
+                    countdownElement.textContent = `Перенаправлю через ${countdown}`;
+                    progressBar.style.width = `${(5 - countdown) / 5 * 100}%`;
+
+                    if (countdown <= 0) {
+                        clearInterval(interval);
+                        window.location.replace(url)
+                    }
+                }, 1000);
+
+                const messageElement = document.querySelector('.message');
+                messageElement.onclick = () => {
+                    window.location.href = url;
+                };
+
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
+            }
+        }
+
+        window.onload = redirect;
+    </script>
+    <title>Redirecting...</title>
+</head>
+
+<body>
+    <nav>
+        <a href="index.html">Главная</a>
+        <a href="seturl.html">Установить URL</a>
+        <a href="about.html">О проекте</a>
+    </nav>
+    <div class="countdown">Кликай по кнопке 👇</div>
+    <div class="countdown"> </div>
+    <div class="message">Удачи 😉</div>
+    <div id="countdown" class="countdown">или жди 5 секунд...</div>
+    <div class="progress-bar">
+        <div id="progress" class="progress"></div>
+    </div>
+</body>
+
+</html>
