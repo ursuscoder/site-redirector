@@ -1,3 +1,4 @@
 User-agent: *
 Disallow:
 Host: xn--80atcxa4d.site
+Sitemap: https://xn--80atcxa4d.site/sitemap.xml
