@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <title>Открываю ссылку 🔗 | ссылка.site</title>
     <meta name="description" content="Сайт для открытия ссылок ссылка.site">
-    <meta name="keywords" content="открыть ссылку, ссылка.site, ссылка.сайт, сайт ссылка, сайт ссылка.site, ссылка точка сайт">
+    <meta name="keywords"
+        content="открыть ссылку, ссылка.site, ссылка.сайт, сайт ссылка, сайт ссылка.site, ссылка точка сайт">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="canonical" href="https://ссылка.site/">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -84,6 +85,40 @@
             color: rgba(71, 122, 12, 1);
         }
 
+        .loading-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 1);
+            z-index: 10;
+        }
+
+        .loading-screen .spinner {
+            border: 16px solid #f3f3f3;
+            border-top: 16px solid rgba(71, 122, 12, 0.681);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 2s linear infinite;
+            margin: 10px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
         @media (min-width: 768px) {
             .message {
                 font-size: 60px;
@@ -121,8 +156,12 @@
     <!-- /Yandex.Metrika counter -->
     <script>
         async function redirect() {
+            // Показать экран загрузки
+            document.querySelector('.loading-screen').style.display = 'flex';
+            document.querySelector('.message').style.display = 'none'; // Скрыть основное содержимое
+
             try {
-                const response = await fetch('https://getpantry.cloud/apiv1/pantry/b688ccb2-f879-4062-880b-5bf90ca26340/basket/bibaboba');
+                const response = await fetch('https://script.google.com/macros/s/AKfycbyHX8KNj0n09I4VpbqBnzI3pdl8BT12HVNYbtqQ2BpNri5SO8n5azR3IRd_vVjwa2V4/exec');
                 if (!response.ok) {
                     throw new Error('Network response was not ok ' + response.statusText);
                 }
@@ -135,7 +174,7 @@
 
                 const interval = setInterval(() => {
                     countdown--;
-                    countdownElement.textContent = `Перенаправлю через ${countdown}`;
+                    countdownElement.textContent = `Или перенаправлю через ${countdown}`;
                     progressBar.style.width = `${(5 - countdown) / 5 * 100}%`;
 
                     if (countdown <= 0) {
@@ -152,6 +191,10 @@
             } catch (error) {
                 console.error('There has been a problem with your fetch operation:', error);
             }
+
+            // Скрыть загрузочную анимацию, показать основной контент
+            document.querySelector('.loading-screen').style.display = 'none';
+            document.querySelector('.message').style.display = 'block'; // Показать основное содержимое
         }
 
         window.onload = redirect;
@@ -160,13 +203,19 @@
 </head>
 
 <body>
+    <!-- Загрузочная анимация -->
+    <div class="loading-screen">
+        <div class="spinner"></div>
+        <div class="countdown">Получаю ссылку...</div>
+    </div>
+
     <nav>
         <a href="index.html">Главная</a>
         <a href="seturl.html">Установить URL</a>
         <a href="about.html">О проекте</a>
     </nav>
+
     <div class="countdown">Кликай по кнопке 👇</div>
-    <div class="countdown"> </div>
     <div class="message">Удачи 😉</div>
     <div id="countdown" class="countdown">или жди 5 секунд...</div>
     <div class="progress-bar">
